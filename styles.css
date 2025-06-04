@@ -1,0 +1,132 @@
+/* Custom styles to supplement Tailwind */
+:root {
+  --color-emerald-50: #ecfdf5;
+  --color-emerald-100: #d1fae5;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  --color-emerald-700: #047857;
+  --color-teal-50: #f0fdfa;
+  --color-teal-100: #ccfbf1;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #0d9488;
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+}
+
+/* Dark mode */
+.dark {
+  --color-emerald-50: #064e3b;
+  --color-emerald-100: #065f46;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #34d399;
+  --color-emerald-700: #6ee7b7;
+  --color-teal-50: #134e4a;
+  --color-teal-100: #115e59;
+  --color-teal-500: #14b8a6;
+  --color-teal-600: #2dd4bf;
+  --color-blue-50: #172554;
+  --color-blue-100: #1e3a8a;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #60a5fa;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Text gradient for headings */
+.bg-gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, var(--color-emerald-600), var(--color-teal-600));
+}
+
+/* Animations */
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Tab styling */
+.metrics-tab {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.metrics-tab.active {
+  background-color: var(--color-emerald-500);
+  color: white;
+}
+
+.metrics-content {
+  display: none;
+}
+
+.metrics-content.active {
+  display: block;
+}
+
+/* Progress bar styling */
+.progress-container {
+  height: 0.75rem;
+  width: 100%;
+  background-color: #f3f4f6;
+  border-radius: 9999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dark .progress-container {
+  background-color: #1f2937;
+}
+
+.progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+.progress-normal {
+  background: linear-gradient(to right, var(--color-emerald-500), var(--color-teal-500));
+}
+
+.progress-attention {
+  background: linear-gradient(to right, #f59e0b, #d97706);
+}
+
+.progress-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+  border-radius: 9999px;
+}
+
+/* Card styling */
+.card {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* Mobile menu transition */
+#mobile-menu {
+  transition: transform 0.3s ease;
+}
+
+#mobile-menu.open {
+  transform: translateX(0);
+}

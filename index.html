@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CheckApp - Health Monitoring</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-emerald-50 via-blue-50 to-teal-50 dark:from-emerald-950 dark:via-blue-950 dark:to-teal-950">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-lg bg-white/80 dark:bg-gray-900/80 border-b border-emerald-200 dark:border-emerald-800 shadow-sm">
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="mobile-menu-button" class="md:hidden bg-transparent border-none p-2 cursor-pointer">
+          <div id="menu-icon"></div>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-1.5 rounded-lg shadow-lg flex items-center justify-center">
+            <div id="heart-icon" class="text-white"></div>
+          </div>
+          <span class="font-bold text-xl bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+            CheckApp
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="theme-toggle" class="bg-transparent border-none p-2 cursor-pointer">
+          <div id="theme-icon" class="text-gray-700 dark:text-gray-300"></div>
+        </button>
+        <button class="bg-transparent border-none p-2 cursor-pointer">
+          <div id="settings-icon" class="text-gray-700 dark:text-gray-300"></div>
+        </button>
+        <button class="bg-transparent border-none p-2 cursor-pointer rounded-full bg-gradient-to-r from-emerald-100 to-teal-100 dark:from-emerald-800 dark:to-teal-800">
+          <div id="user-icon" class="text-gray-700 dark:text-gray-300"></div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 flex">
+    <!-- Sidebar - Desktop -->
+    <aside class="hidden md:block w-64 pt-8 pr-6 shrink-0">
+      <nav class="space-y-1" id="sidebar-nav">
+        <!-- Navigation items will be inserted here by JavaScript -->
+      </nav>
+
+      <div class="mt-8 p-4 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 text-white shadow-lg">
+        <h3 class="font-medium mb-1">Health Check Reminder</h3>
+        <p class="text-sm text-emerald-100 mb-3">Your annual checkup is due in 2 weeks</p>
+        <button class="w-full py-1 px-3 text-sm bg-white text-emerald-600 hover:bg-emerald-50 rounded-md shadow-sm">
+          Schedule Now
+        </button>
+      </div>
+    </aside>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 md:hidden transform -translate-x-full transition-transform duration-200">
+      <div class="p-4 flex flex-col h-full">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-2">
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-500 p-1.5 rounded-lg shadow-lg flex items-center justify-center">
+              <div id="mobile-heart-icon" class="text-white"></div>
+            </div>
+            <span class="font-bold text-xl bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              CheckApp
+            </span>
+          </div>
+          <button id="close-mobile-menu" class="bg-transparent border-none p-2 cursor-pointer">
+            <div id="close-icon" class="text-gray-700 dark:text-gray-300"></div>
+          </button>
+        </div>
+
+        <nav class="space-y-1" id="mobile-nav">
+          <!-- Mobile navigation items will be inserted here by JavaScript -->
+        </nav>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 py-8">
+      <div id="content-area">
+        <!-- Content will be loaded here based on active tab -->
+        <div id="dashboard-content" class="space-y-8">
+          <!-- Welcome Header -->
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <h1 class="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
+                Welcome back, Alex
+              </h1>
+              <p class="text-gray-600 dark:text-gray-400 mt-1">Here's an overview of your health status</p>
+            </div>
+            <div class="flex gap-3">
+              <button class="flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-md shadow-lg">
+                <div id="upload-icon" class="mr-2"></div>
+                Upload Exam
+              </button>
+              <button class="flex items-center px-4 py-2 bg-transparent border border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-900/20 rounded-md">
+                <div id="calendar-icon" class="mr-2"></div>
+                Schedule Checkup
+              </button>
+            </div>
+          </div>
+
+          <!-- Health Score Card -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 overflow-hidden border-0 shadow-xl bg-gradient-to-br from-white via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-emerald-950 dark:to-teal-950 relative rounded-lg">
+              <div class="p-6 pb-2 relative z-10">
+                <div class="flex items-center gap-2">
+                  <div id="health-score-icon" class="text-emerald-600"></div>
+                  <h2 class="text-xl font-semibold">Health Score</h2>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Your health score over time</p>
+              </div>
+              <div class="p-6 pb-0 relative">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center min-h-[350px] lg:min-h-[500px]">
+                  <!-- Health Score Details - Left Side -->
+                  <div class="space-y-6">
+                    <!-- Main Health Score Display -->
+                    <div class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-100 dark:border-emerald-800">
+                      <div class="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
+                        89
+                      </div>
+                      <div class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-1">Health Score</div>
+                      <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                          <div id="trending-up-icon" class="w-3 h-3 mr-1"></div>
+                          +4% from last month
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Health Score Chart -->
+                    <div class="h-[200px] bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 border border-emerald-100 dark:border-emerald-800">
+                      <canvas id="health-score-chart"></canvas>
+                    </div>
+                  </div>
+
+                  <!-- Health Visualization - Right Side -->
+                  <div class="relative h-[400px] lg:h-[500px] flex items-center justify-center">
+                    <div class="w-full h-full bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 dark:from-emerald-900/30 dark:via-teal-900/30 dark:to-cyan-900/30 rounded-2xl flex items-center justify-center shadow-inner">
+                      <div class="text-center p-8">
+                        <div class="relative mb-6">
+                          <div class="w-32 h-32 mx-auto bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
+                            <div id="big-heart-icon" class="text-white animate-pulse"></div>
+                          </div>
+                          <div class="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg">
+                            <div id="check-circle-icon" class="text-white"></div>
+                          </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
+                          Excellent Health
+                        </h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Your health metrics are looking great!</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="p-6 pt-4 relative z-10">
+                <div class="flex items-center justify-between w-full">
+                  <div class="flex items-center gap-4">
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                      Last updated: <span id="last-updated-date"></span>
+                    </div>
+                  </div>
+                  <button class="flex items-center text-sm text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-3 py-1 rounded-md">
+                    View Detailed Report
+                    <div id="arrow-right-icon" class="ml-1"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-0 shadow-xl bg-gradient-to-br from-white via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-teal-950 dark:to-cyan-950 rounded-lg">
+              <div class="p-6">
+                <div class="flex items-center gap-2">
+                  <div id="activity-icon" class="text-teal-600"></div>
+                  <h2 class="text-xl font-semibold">Current Status</h2>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Your key health indicators</p>
+              </div>
+              <div class="px-6 pb-6 space-y-6">
+                <div id="biomarkers-container">
+                  <!-- Biomarkers will be inserted here by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Exams & Insights -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-1 border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950 rounded-lg">
+              <div class="p-6 pb-2">
+                <div class="flex items-center gap-2">
+                  <div id="file-text-icon" class="text-blue-600"></div>
+                  <h2 class="text-xl font-semibold">Recent Exams</h2>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Your latest medical examinations</p>
+              </div>
+              <div class="px-6 pb-2">
+                <div id="recent-exams-container" class="space-y-4">
+                  <!-- Recent exams will be inserted here by JavaScript -->
+                </div>
+              </div>
+              <div class="p-6">
+                <button class="w-full flex items-center justify-center text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 px-4 py-2 rounded-md">
+                  View All Exams
+                  <div id="exams-arrow-icon" class="ml-1"></div>
+                </button>
+              </div>
+            </div>
+
+            <div class="lg:col-span-2 border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-gray-900 dark:to-emerald-950 rounded-lg">
+              <div class="p-6 pb-2">
+                <div class="flex items-center gap-2">
+                  <div id="insights-heart-icon" class="text-emerald-600"></div>
+                  <h2 class="text-xl font-semibold">AI Health Insights</h2>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400">Personalized recommendations based on your data</p>
+              </div>
+              <div class="px-6 pb-2">
+                <div id="health-insights-container" class="space-y-4">
+                  <!-- Health insights will be inserted here by JavaScript -->
+                </div>
+              </div>
+              <div class="p-6">
+                <button class="w-full flex items-center justify-center text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 px-4 py-2 rounded-md">
+                  View All Insights
+                  <div id="insights-arrow-icon" class="ml-1"></div>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Health Metrics -->
+          <div class="border-0 shadow-lg bg-gradient-to-br from-white to-teal-50 dark:from-gray-900 dark:to-teal-950 rounded-lg">
+            <div class="p-6">
+              <div class="flex items-center gap-2">
+                <div id="metrics-activity-icon" class="text-teal-600"></div>
+                <h2 class="text-xl font-semibold">Health Metrics</h2>
+              </div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Detailed analysis of your key health indicators</p>
+            </div>
+            <div class="px-6 pb-6">
+              <div class="w-full">
+                <div class="grid grid-cols-4 mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-md" id="metrics-tabs">
+                  <button class="py-2 px-4 text-sm font-medium text-center focus:outline-none metrics-tab active" data-tab="cholesterol">Cholesterol</button>
+                  <button class="py-2 px-4 text-sm font-medium text-center focus:outline-none metrics-tab" data-tab="glucose">Blood Sugar</button>
+                  <button class="py-2 px-4 text-sm font-medium text-center focus:outline-none metrics-tab" data-tab="pressure">Blood Pressure</button>
+                  <button class="py-2 px-4 text-sm font-medium text-center focus:outline-none metrics-tab" data-tab="weight">Weight</button>
+                </div>
+                <div class="metrics-content active" id="cholesterol-content">
+                  <div class="h-[300px]">
+                    <canvas id="cholesterol-chart"></canvas>
+                  </div>
+                </div>
+                <div class="metrics-content hidden" id="glucose-content">
+                  <div class="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+                    <p class="text-gray-500">Blood Sugar metrics visualization</p>
+                  </div>
+                </div>
+                <div class="metrics-content hidden" id="pressure-content">
+                  <div class="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+                    <p class="text-gray-500">Blood Pressure metrics visualization</p>
+                  </div>
+                </div>
+                <div class="metrics-content hidden" id="weight-content">
+                  <div class="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+                    <p class="text-gray-500">Weight metrics visualization</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <button class="h-auto py-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg rounded-lg">
+              <div class="flex flex-col items-center">
+                <div id="upload-action-icon" class="mb-2"></div>
+                <span>Upload New Exam</span>
+              </div>
+            </button>
+            <button class="h-auto py-6 border-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-900/20 rounded-lg">
+              <div class="flex flex-col items-center">
+                <div id="user-action-icon" class="mb-2"></div>
+                <span>Update Health Profile</span>
+              </div>
+            </button>
+            <button class="h-auto py-6 border-2 border-teal-200 text-teal-700 hover:bg-teal-50 dark:border-teal-800 dark:text-teal-300 dark:hover:bg-teal-900/20 rounded-lg">
+              <div class="flex flex-col items-center">
+                <div id="calendar-action-icon" class="mb-2"></div>
+                <span>Schedule Appointment</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
