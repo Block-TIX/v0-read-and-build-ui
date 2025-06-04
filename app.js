@@ -1,10 +1,5 @@
 import { Chart } from "@/components/ui/chart"
-import * as lucide from "lucide-static"
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Lucide icons
-  lucide.createIcons()
-
   // Set up navigation data
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "layout-dashboard" },
@@ -38,34 +33,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function initializeIcons() {
   // Header icons
-  document.getElementById("heart-icon").innerHTML = '<i data-lucide="heart" class="w-5 h-5"></i>'
-  document.getElementById("menu-icon").innerHTML = '<i data-lucide="menu" class="w-5 h-5"></i>'
-  document.getElementById("theme-icon").innerHTML = '<i data-lucide="moon" class="w-5 h-5"></i>'
-  document.getElementById("settings-icon").innerHTML = '<i data-lucide="settings" class="w-5 h-5"></i>'
-  document.getElementById("user-icon").innerHTML = '<i data-lucide="user" class="w-5 h-5"></i>'
-  document.getElementById("mobile-heart-icon").innerHTML = '<i data-lucide="heart" class="w-5 h-5"></i>'
-  document.getElementById("close-icon").innerHTML = '<i data-lucide="x" class="w-5 h-5"></i>'
+  setIcon("heart-icon", "heart", "w-5 h-5")
+  setIcon("menu-icon", "menu", "w-5 h-5")
+  setIcon("theme-icon", "moon", "w-5 h-5")
+  setIcon("settings-icon", "settings", "w-5 h-5")
+  setIcon("user-icon", "user", "w-5 h-5")
+  setIcon("mobile-heart-icon", "heart", "w-5 h-5")
+  setIcon("close-icon", "x", "w-5 h-5")
 
   // Dashboard icons
-  document.getElementById("upload-icon").innerHTML = '<i data-lucide="upload" class="w-4 h-4"></i>'
-  document.getElementById("calendar-icon").innerHTML = '<i data-lucide="calendar" class="w-4 h-4"></i>'
-  document.getElementById("health-score-icon").innerHTML = '<i data-lucide="heart" class="w-5 h-5"></i>'
-  document.getElementById("trending-up-icon").innerHTML = '<i data-lucide="trending-up" class="w-3 h-3"></i>'
-  document.getElementById("big-heart-icon").innerHTML = '<i data-lucide="heart" class="w-16 h-16"></i>'
-  document.getElementById("check-circle-icon").innerHTML = '<i data-lucide="check-circle" class="w-5 h-5"></i>'
-  document.getElementById("arrow-right-icon").innerHTML = '<i data-lucide="arrow-right" class="w-4 h-4"></i>'
-  document.getElementById("activity-icon").innerHTML = '<i data-lucide="activity" class="w-5 h-5"></i>'
-  document.getElementById("file-text-icon").innerHTML = '<i data-lucide="file-text" class="w-5 h-5"></i>'
-  document.getElementById("insights-heart-icon").innerHTML = '<i data-lucide="heart" class="w-5 h-5"></i>'
-  document.getElementById("exams-arrow-icon").innerHTML = '<i data-lucide="arrow-right" class="w-4 h-4"></i>'
-  document.getElementById("insights-arrow-icon").innerHTML = '<i data-lucide="arrow-right" class="w-4 h-4"></i>'
-  document.getElementById("metrics-activity-icon").innerHTML = '<i data-lucide="activity" class="w-5 h-5"></i>'
-  document.getElementById("upload-action-icon").innerHTML = '<i data-lucide="upload" class="w-6 h-6"></i>'
-  document.getElementById("user-action-icon").innerHTML = '<i data-lucide="user" class="w-6 h-6"></i>'
-  document.getElementById("calendar-action-icon").innerHTML = '<i data-lucide="calendar" class="w-6 h-6"></i>'
+  setIcon("upload-icon", "upload", "w-4 h-4")
+  setIcon("calendar-icon", "calendar", "w-4 h-4")
+  setIcon("health-score-icon", "heart", "w-5 h-5")
+  setIcon("trending-up-icon", "trending-up", "w-3 h-3")
+  setIcon("big-heart-icon", "heart", "w-16 h-16")
+  setIcon("check-circle-icon", "check-circle", "w-5 h-5")
+  setIcon("arrow-right-icon", "arrow-right", "w-4 h-4")
+  setIcon("activity-icon", "activity", "w-5 h-5")
+  setIcon("file-text-icon", "file-text", "w-5 h-5")
+  setIcon("insights-heart-icon", "heart", "w-5 h-5")
+  setIcon("exams-arrow-icon", "arrow-right", "w-4 h-4")
+  setIcon("insights-arrow-icon", "arrow-right", "w-4 h-4")
+  setIcon("metrics-activity-icon", "activity", "w-5 h-5")
+  setIcon("upload-action-icon", "upload", "w-6 h-6")
+  setIcon("user-action-icon", "user", "w-6 h-6")
+  setIcon("calendar-action-icon", "calendar", "w-6 h-6")
 
-  // Re-initialize Lucide icons
-  lucide.createIcons()
+  // Initialize Lucide icons if available
+  if (typeof lucide !== "undefined" && lucide.createIcons) {
+    lucide.createIcons()
+  }
+}
+
+function setIcon(elementId, iconName, className) {
+  const element = document.getElementById(elementId)
+  if (element) {
+    element.innerHTML = '<i data-lucide="' + iconName + '" class="' + className + '"></i>'
+  }
 }
 
 function setupNavigation(navItems) {
@@ -73,20 +77,22 @@ function setupNavigation(navItems) {
   const mobileNav = document.getElementById("mobile-nav")
   let activeTab = "dashboard"
 
+  if (!sidebarNav || !mobileNav) return
+
   // Create navigation items
   navItems.forEach((item) => {
     // Desktop nav item
     const navItem = document.createElement("button")
-    navItem.className = `w-full flex items-center justify-start text-base font-medium h-12 px-4 rounded-md transition-all duration-200 ${
-      activeTab === item.id
+    navItem.className =
+      "w-full flex items-center justify-start text-base font-medium h-12 px-4 rounded-md transition-all duration-200 " +
+      (activeTab === item.id
         ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 dark:from-emerald-900/30 dark:to-teal-900/30 dark:text-emerald-300 shadow-sm"
-        : "text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 dark:hover:from-emerald-900/20 dark:hover:to-teal-900/20"
-    }`
+        : "text-gray-600 dark:text-gray-400 hover:bg-gradient-to-r hover:from-emerald-50/50 hover:to-teal-50/50 dark:hover:from-emerald-900/20 dark:hover:to-teal-900/20")
     navItem.dataset.tab = item.id
 
     const iconSpan = document.createElement("span")
     iconSpan.className = "mr-3"
-    iconSpan.innerHTML = `<i data-lucide="${item.icon}" class="w-5 h-5"></i>`
+    iconSpan.innerHTML = '<i data-lucide="' + item.icon + '" class="w-5 h-5"></i>'
 
     const labelSpan = document.createElement("span")
     labelSpan.textContent = item.label
@@ -108,15 +114,19 @@ function setupNavigation(navItems) {
     mobileNav.appendChild(mobileNavItem)
 
     // Add event listeners
-    navItem.addEventListener("click", () => switchTab(item.id))
+    navItem.addEventListener("click", () => {
+      switchTab(item.id)
+    })
     mobileNavItem.addEventListener("click", () => {
       switchTab(item.id)
       toggleMobileMenu()
     })
   })
 
-  // Re-initialize Lucide icons
-  lucide.createIcons()
+  // Initialize Lucide icons if available
+  if (typeof lucide !== "undefined" && lucide.createIcons) {
+    lucide.createIcons()
+  }
 
   function switchTab(tabId) {
     activeTab = tabId
@@ -156,9 +166,6 @@ function setupNavigation(navItems) {
           "w-full flex items-center justify-start text-base font-medium h-12 px-4 rounded-md transition-all duration-200 text-gray-600 dark:text-gray-400"
       }
     })
-
-    // Here you would load the content for the selected tab
-    // For now, we're just showing the dashboard
   }
 }
 
@@ -166,6 +173,8 @@ function setupMobileMenu() {
   const mobileMenuButton = document.getElementById("mobile-menu-button")
   const closeMobileMenuButton = document.getElementById("close-mobile-menu")
   const mobileMenu = document.getElementById("mobile-menu")
+
+  if (!mobileMenuButton || !closeMobileMenuButton || !mobileMenu) return
 
   mobileMenuButton.addEventListener("click", toggleMobileMenu)
   closeMobileMenuButton.addEventListener("click", toggleMobileMenu)
@@ -182,9 +191,11 @@ function setupThemeToggle() {
   const themeToggleButton = document.getElementById("theme-toggle")
   const themeIcon = document.getElementById("theme-icon")
 
+  if (!themeToggleButton || !themeIcon) return
+
   // Check for saved theme preference or use device preference
   const savedTheme = localStorage.getItem("theme")
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
 
   if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
     document.documentElement.classList.add("dark")
@@ -194,8 +205,10 @@ function setupThemeToggle() {
     themeIcon.innerHTML = '<i data-lucide="moon" class="w-5 h-5"></i>'
   }
 
-  // Re-initialize Lucide icons
-  lucide.createIcons()
+  // Initialize Lucide icons if available
+  if (typeof lucide !== "undefined" && lucide.createIcons) {
+    lucide.createIcons()
+  }
 
   themeToggleButton.addEventListener("click", () => {
     if (document.documentElement.classList.contains("dark")) {
@@ -208,14 +221,19 @@ function setupThemeToggle() {
       themeIcon.innerHTML = '<i data-lucide="sun" class="w-5 h-5"></i>'
     }
 
-    // Re-initialize Lucide icons
-    lucide.createIcons()
+    // Initialize Lucide icons if available
+    if (typeof lucide !== "undefined" && lucide.createIcons) {
+      lucide.createIcons()
+    }
   })
 }
 
 function setupDashboardData() {
   // Set last updated date
-  document.getElementById("last-updated-date").textContent = new Date().toLocaleDateString()
+  const lastUpdatedElement = document.getElementById("last-updated-date")
+  if (lastUpdatedElement) {
+    lastUpdatedElement.textContent = new Date().toLocaleDateString()
+  }
 
   // Set up biomarkers
   const biomarkersData = [
@@ -227,6 +245,7 @@ function setupDashboardData() {
   ]
 
   const biomarkersContainer = document.getElementById("biomarkers-container")
+  if (!biomarkersContainer) return
 
   biomarkersData.forEach((marker) => {
     const percentage = (marker.value / marker.normal) * 100
@@ -242,7 +261,7 @@ function setupDashboardData() {
     leftDiv.className = "flex items-center gap-3"
 
     const indicatorDiv = document.createElement("div")
-    indicatorDiv.className = `w-3 h-3 rounded-full ${isNormal ? "bg-emerald-500" : "bg-amber-500"} shadow-sm`
+    indicatorDiv.className = "w-3 h-3 rounded-full shadow-sm " + (isNormal ? "bg-emerald-500" : "bg-amber-500")
 
     const nameSpan = document.createElement("span")
     nameSpan.className = "font-medium"
@@ -260,7 +279,7 @@ function setupDashboardData() {
 
     const valueSpan = document.createElement("span")
     valueSpan.className = "font-bold text-lg"
-    valueSpan.innerHTML = `${marker.value} <span class="text-sm font-normal text-gray-500">${marker.unit}</span>`
+    valueSpan.innerHTML = marker.value + ' <span class="text-sm font-normal text-gray-500">' + marker.unit + "</span>"
 
     headerDiv.appendChild(leftDiv)
     headerDiv.appendChild(valueSpan)
@@ -272,8 +291,8 @@ function setupDashboardData() {
     progressContainer.className = "progress-container"
 
     const progressBar = document.createElement("div")
-    progressBar.className = `progress-bar ${isNormal ? "progress-normal" : "progress-attention"}`
-    progressBar.style.width = `${percentage}%`
+    progressBar.className = "progress-bar " + (isNormal ? "progress-normal" : "progress-attention")
+    progressBar.style.width = percentage + "%"
 
     const progressOverlay = document.createElement("div")
     progressOverlay.className = "progress-overlay"
@@ -284,7 +303,7 @@ function setupDashboardData() {
 
     const targetDiv = document.createElement("div")
     targetDiv.className = "text-xs text-gray-500 dark:text-gray-400"
-    targetDiv.textContent = `Target: ≤ ${marker.normal} ${marker.unit}`
+    targetDiv.textContent = "Target: ≤ " + marker.normal + " " + marker.unit
 
     markerDiv.appendChild(headerDiv)
     markerDiv.appendChild(progressDiv)
@@ -319,6 +338,7 @@ function setupDashboardData() {
   ]
 
   const recentExamsContainer = document.getElementById("recent-exams-container")
+  if (!recentExamsContainer) return
 
   recentExams.forEach((exam) => {
     const examDiv = document.createElement("div")
@@ -353,21 +373,20 @@ function setupDashboardData() {
     }
 
     badgeSpan.className = badgeClass
-    badgeSpan.innerHTML = `${badgeIcon}<span class="capitalize">${exam.trend}</span>`
+    badgeSpan.innerHTML = badgeIcon + '<span class="capitalize">' + exam.trend + "</span>"
 
     headerDiv.appendChild(titleH3)
     headerDiv.appendChild(badgeSpan)
 
     const dateDiv = document.createElement("div")
     dateDiv.className = "flex items-center text-sm text-gray-600 dark:text-gray-400"
-    dateDiv.innerHTML = `<i data-lucide="calendar" class="w-4 h-4 mr-1"></i>${new Date(exam.date).toLocaleDateString(
-      "en-US",
-      {
+    dateDiv.innerHTML =
+      '<i data-lucide="calendar" class="w-4 h-4 mr-1"></i>' +
+      new Date(exam.date).toLocaleDateString("en-US", {
         year: "numeric",
         month: "short",
         day: "numeric",
-      },
-    )}`
+      })
 
     examDiv.appendChild(headerDiv)
     examDiv.appendChild(dateDiv)
@@ -398,6 +417,7 @@ function setupDashboardData() {
   ]
 
   const healthInsightsContainer = document.getElementById("health-insights-container")
+  if (!healthInsightsContainer) return
 
   healthInsights.forEach((insight) => {
     const insightDiv = document.createElement("div")
@@ -441,7 +461,9 @@ function setupDashboardData() {
     const toggleButton = document.createElement("button")
     toggleButton.className = "h-8 w-8 p-0 bg-transparent border-none cursor-pointer"
     toggleButton.innerHTML = '<i data-lucide="chevron-down" class="h-4 w-4"></i>'
-    toggleButton.addEventListener("click", () => toggleInsight(insight.id))
+    toggleButton.addEventListener("click", () => {
+      toggleInsight(insight.id)
+    })
 
     headerDiv.appendChild(titleH3)
     headerDiv.appendChild(toggleButton)
@@ -461,11 +483,15 @@ function setupDashboardData() {
     healthInsightsContainer.appendChild(insightDiv)
   })
 
-  // Re-initialize Lucide icons
-  lucide.createIcons()
+  // Initialize Lucide icons if available
+  if (typeof lucide !== "undefined" && lucide.createIcons) {
+    lucide.createIcons()
+  }
 
   function toggleInsight(id) {
-    const insightDiv = document.querySelector(`[data-insight-id="${id}"]`)
+    const insightDiv = document.querySelector('[data-insight-id="' + id + '"]')
+    if (!insightDiv) return
+
     const description = insightDiv.querySelector(".insight-description")
     const toggleButton = insightDiv.querySelector("button")
 
@@ -477,12 +503,20 @@ function setupDashboardData() {
       toggleButton.innerHTML = '<i data-lucide="chevron-down" class="h-4 w-4"></i>'
     }
 
-    // Re-initialize Lucide icons
-    lucide.createIcons()
+    // Initialize Lucide icons if available
+    if (typeof lucide !== "undefined" && lucide.createIcons) {
+      lucide.createIcons()
+    }
   }
 }
 
 function initializeCharts() {
+  // Check if Chart.js is available
+  if (typeof Chart === "undefined") {
+    console.warn("Chart.js not loaded, skipping chart initialization")
+    return
+  }
+
   // Health Score Chart
   const healthScoreData = [
     { month: "Jan", score: 78 },
@@ -495,143 +529,149 @@ function initializeCharts() {
     { month: "Aug", score: 89 },
   ]
 
-  const healthScoreCtx = document.getElementById("health-score-chart").getContext("2d")
+  const healthScoreCanvas = document.getElementById("health-score-chart")
+  if (healthScoreCanvas) {
+    const healthScoreCtx = healthScoreCanvas.getContext("2d")
 
-  const healthScoreGradient = healthScoreCtx.createLinearGradient(0, 0, 0, 200)
-  healthScoreGradient.addColorStop(0, "rgba(16, 185, 129, 0.8)")
-  healthScoreGradient.addColorStop(1, "rgba(20, 184, 166, 0.1)")
+    const healthScoreGradient = healthScoreCtx.createLinearGradient(0, 0, 0, 200)
+    healthScoreGradient.addColorStop(0, "rgba(16, 185, 129, 0.8)")
+    healthScoreGradient.addColorStop(1, "rgba(20, 184, 166, 0.1)")
 
-  new Chart(healthScoreCtx, {
-    type: "line",
-    data: {
-      labels: healthScoreData.map((d) => d.month),
-      datasets: [
-        {
-          label: "Health Score",
-          data: healthScoreData.map((d) => d.score),
-          borderColor: "#10b981",
-          backgroundColor: healthScoreGradient,
-          borderWidth: 2,
-          pointBackgroundColor: "#10b981",
-          pointBorderColor: "#fff",
-          pointRadius: 4,
-          pointHoverRadius: 6,
-          fill: true,
-          tension: 0.4,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: 50,
-          max: 100,
-          grid: {
-            color: "rgba(209, 250, 229, 0.3)",
+    new Chart(healthScoreCtx, {
+      type: "line",
+      data: {
+        labels: healthScoreData.map((d) => d.month),
+        datasets: [
+          {
+            label: "Health Score",
+            data: healthScoreData.map((d) => d.score),
+            borderColor: "#10b981",
+            backgroundColor: healthScoreGradient,
+            borderWidth: 2,
+            pointBackgroundColor: "#10b981",
+            pointBorderColor: "#fff",
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            fill: true,
+            tension: 0.4,
           },
-          ticks: {
-            font: {
-              size: 10,
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            min: 50,
+            max: 100,
+            grid: {
+              color: "rgba(209, 250, 229, 0.3)",
+            },
+            ticks: {
+              font: {
+                size: 10,
+              },
+            },
+          },
+          x: {
+            grid: {
+              display: false,
+            },
+            ticks: {
+              font: {
+                size: 10,
+              },
             },
           },
         },
-        x: {
-          grid: {
+        plugins: {
+          legend: {
             display: false,
           },
-          ticks: {
-            font: {
-              size: 10,
+          tooltip: {
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            titleColor: "#111827",
+            bodyColor: "#374151",
+            borderColor: "#e5e7eb",
+            borderWidth: 1,
+            cornerRadius: 8,
+            displayColors: false,
+            padding: 10,
+            titleFont: {
+              size: 14,
+              weight: "bold",
+            },
+            bodyFont: {
+              size: 12,
             },
           },
         },
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          titleColor: "#111827",
-          bodyColor: "#374151",
-          borderColor: "#e5e7eb",
-          borderWidth: 1,
-          cornerRadius: 8,
-          displayColors: false,
-          padding: 10,
-          titleFont: {
-            size: 14,
-            weight: "bold",
-          },
-          bodyFont: {
-            size: 12,
-          },
-        },
-      },
-    },
-  })
+    })
+  }
 
   // Cholesterol Chart
-  const cholesterolCtx = document.getElementById("cholesterol-chart").getContext("2d")
+  const cholesterolCanvas = document.getElementById("cholesterol-chart")
+  if (cholesterolCanvas) {
+    const cholesterolCtx = cholesterolCanvas.getContext("2d")
 
-  const cholesterolGradient = cholesterolCtx.createLinearGradient(0, 0, 0, 300)
-  cholesterolGradient.addColorStop(0, "rgba(16, 185, 129, 0.8)")
-  cholesterolGradient.addColorStop(1, "rgba(20, 184, 166, 0.6)")
+    const cholesterolGradient = cholesterolCtx.createLinearGradient(0, 0, 0, 300)
+    cholesterolGradient.addColorStop(0, "rgba(16, 185, 129, 0.8)")
+    cholesterolGradient.addColorStop(1, "rgba(20, 184, 166, 0.6)")
 
-  new Chart(cholesterolCtx, {
-    type: "bar",
-    data: {
-      labels: ["Total", "HDL", "LDL", "Triglycerides"],
-      datasets: [
-        {
-          label: "Value",
-          data: [180, 55, 110, 120],
-          backgroundColor: cholesterolGradient,
-          borderRadius: 4,
-          borderSkipped: false,
-        },
-      ],
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          grid: {
-            color: "rgba(209, 250, 229, 1)",
+    new Chart(cholesterolCtx, {
+      type: "bar",
+      data: {
+        labels: ["Total", "HDL", "LDL", "Triglycerides"],
+        datasets: [
+          {
+            label: "Value",
+            data: [180, 55, 110, 120],
+            backgroundColor: cholesterolGradient,
+            borderRadius: 4,
+            borderSkipped: false,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            grid: {
+              color: "rgba(209, 250, 229, 1)",
+            },
+          },
+          x: {
+            grid: {
+              display: false,
+            },
           },
         },
-        x: {
-          grid: {
+        plugins: {
+          legend: {
             display: false,
           },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-          backgroundColor: "rgba(255, 255, 255, 0.95)",
-          titleColor: "#111827",
-          bodyColor: "#374151",
-          borderColor: "#e5e7eb",
-          borderWidth: 1,
-          cornerRadius: 8,
-          displayColors: false,
-          padding: 10,
-          callbacks: {
-            afterLabel: (context) => {
-              const normals = ["< 200", "> 40", "< 100", "< 150"]
-              return "Normal range: " + normals[context.dataIndex]
+          tooltip: {
+            backgroundColor: "rgba(255, 255, 255, 0.95)",
+            titleColor: "#111827",
+            bodyColor: "#374151",
+            borderColor: "#e5e7eb",
+            borderWidth: 1,
+            cornerRadius: 8,
+            displayColors: false,
+            padding: 10,
+            callbacks: {
+              afterLabel: (context) => {
+                const normals = ["< 200", "> 40", "< 100", "< 150"]
+                return "Normal range: " + normals[context.dataIndex]
+              },
             },
           },
         },
       },
-    },
-  })
+    })
+  }
 }
 
 function setupMetricsTabs() {
@@ -641,19 +681,25 @@ function setupMetricsTabs() {
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       // Remove active class from all tabs
-      tabs.forEach((t) => t.classList.remove("active"))
+      tabs.forEach((t) => {
+        t.classList.remove("active")
+      })
 
       // Add active class to clicked tab
       tab.classList.add("active")
 
       // Hide all content
-      contents.forEach((c) => c.classList.add("hidden"))
-      contents.forEach((c) => c.classList.remove("active"))
+      contents.forEach((c) => {
+        c.classList.add("hidden")
+        c.classList.remove("active")
+      })
 
       // Show content for active tab
-      const activeContent = document.getElementById(`${tab.dataset.tab}-content`)
-      activeContent.classList.remove("hidden")
-      activeContent.classList.add("active")
+      const activeContent = document.getElementById(tab.dataset.tab + "-content")
+      if (activeContent) {
+        activeContent.classList.remove("hidden")
+        activeContent.classList.add("active")
+      }
     })
   })
 }
