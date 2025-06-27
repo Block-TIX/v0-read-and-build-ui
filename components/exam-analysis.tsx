@@ -167,7 +167,7 @@ export default function ExamAnalysis() {
         </div>
 
         {/* Overall Health Score */}
-        <Card className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950">
+        <Card className="glass-card border-0 rounded-2xl hover-lift">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -197,7 +197,7 @@ export default function ExamAnalysis() {
         <TabsContent value="results" className="space-y-4">
           <div className="grid gap-4">
             {analysisData.keyMetrics.map((metric, index) => (
-              <Card key={index}>
+              <Card key={index} className="glass-card border-0 rounded-2xl hover-lift">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
@@ -225,7 +225,7 @@ export default function ExamAnalysis() {
         {/* AI Insights Tab */}
         <TabsContent value="insights" className="space-y-4">
           {analysisData.aiInsights.map((insight, index) => (
-            <Card key={index}>
+            <Card key={index} className="glass-card border-0 rounded-2xl hover-lift">
               <CardHeader>
                 <div className="flex items-start gap-3">
                   <div
@@ -260,7 +260,7 @@ export default function ExamAnalysis() {
 
         {/* Historical Trends Tab */}
         <TabsContent value="trends" className="space-y-4">
-          <Card>
+          <Card className="glass-card border-0 rounded-2xl hover-lift">
             <CardHeader>
               <CardTitle>Cholesterol Trends</CardTitle>
               <CardDescription>Your cholesterol levels over the past 12 months</CardDescription>
@@ -272,7 +272,7 @@ export default function ExamAnalysis() {
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="glass-card border-0 rounded-2xl hover-lift">
             <CardHeader>
               <CardTitle>Blood Sugar Trends</CardTitle>
               <CardDescription>Your glucose levels over time</CardDescription>

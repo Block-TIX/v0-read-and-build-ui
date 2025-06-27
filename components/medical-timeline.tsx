@@ -97,7 +97,7 @@ export default function MedicalTimeline() {
 
             {/* Content */}
             <div className="ml-12">
-              <Card className="hover:shadow-md transition-shadow">
+              <Card className="glass-card hover-lift border-0 rounded-2xl">
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -129,7 +129,7 @@ export default function MedicalTimeline() {
                         </span>
                       </CardDescription>
                     </div>
-                    <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent">
                       <Eye className="w-4 h-4" />
                       View Details
                     </Button>
@@ -174,7 +174,7 @@ export default function MedicalTimeline() {
 
       {/* Load More */}
       <div className="text-center mt-8">
-        <Button variant="outline">Load More Examinations</Button>
+        <Button className="glass hover:bg-white/20 border border-white/30">Load More Examinations</Button>
       </div>
     </div>
   )

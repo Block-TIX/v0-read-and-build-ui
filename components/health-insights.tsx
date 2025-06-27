@@ -182,7 +182,7 @@ export default function HealthInsights() {
       </div>
 
       {/* Summary Card */}
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950">
+      <Card className="glass-card border-0 rounded-3xl hover-lift">
         <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center gap-4">
@@ -245,7 +245,7 @@ export default function HealthInsights() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <Card className="border-0 shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+            <Card className="glass-card border-0 rounded-2xl hover-lift overflow-hidden">
               <CardHeader className="pb-3">
                 <div className="flex items-start gap-4">
                   <div className={`p-3 rounded-full ${getInsightColor(insight.type)}`}>
@@ -274,7 +274,7 @@ export default function HealthInsights() {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="pb-3">
+              <CardContent className="p-6 rounded-2xl glass border border-white/30">
                 <p className="text-gray-700 dark:text-gray-300">{insight.description}</p>
 
                 <div className="mt-4">
@@ -336,7 +336,7 @@ export default function HealthInsights() {
       </div>
 
       {/* Health Focus Areas */}
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950">
+      <Card className="glass-card border-0 rounded-3xl hover-lift">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
             <Heart className="w-5 h-5 text-blue-600" />

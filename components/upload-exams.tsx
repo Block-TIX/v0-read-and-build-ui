@@ -164,7 +164,7 @@ export default function UploadExams() {
         </TabsList>
 
         <TabsContent value="upload">
-          <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950">
+          <Card className="glass-card border-0 rounded-3xl hover-lift">
             <CardHeader>
               <CardTitle className="text-xl flex items-center gap-2">
                 <Upload className="w-5 h-5 text-blue-600" />
@@ -177,10 +177,8 @@ export default function UploadExams() {
             <CardContent className="space-y-6">
               {/* File Upload Area */}
               <div
-                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
-                  isDragging
-                    ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                    : "border-gray-300 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600"
+                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors glass ${
+                  isDragging ? "border-blue-500 bg-white/30" : "border-white/30 hover:border-blue-400"
                 }`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
@@ -227,7 +225,7 @@ export default function UploadExams() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.2 }}
-                          className="flex items-center gap-4 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 shadow-sm"
+                          className="flex items-center gap-4 p-4 glass rounded-lg border border-white/20"
                         >
                           <div className="shrink-0">
                             {file.preview ? (
@@ -364,7 +362,7 @@ export default function UploadExams() {
         <TabsContent value="history">
           <div className="space-y-4">
             {/* Recent Uploads */}
-            <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950">
+            <Card className="glass-card border-0 rounded-3xl hover-lift">
               <CardHeader>
                 <CardTitle className="text-xl">Recent Uploads</CardTitle>
                 <CardDescription>Your recently uploaded medical examinations</CardDescription>
@@ -402,7 +400,7 @@ export default function UploadExams() {
                   ].map((exam) => (
                     <div
                       key={exam.id}
-                      className="p-4 border border-gray-100 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                      className="p-4 glass rounded-lg hover:bg-white/20 transition-colors border border-white/20"
                     >
                       <div className="flex items-start justify-between">
                         <div className="flex-1">

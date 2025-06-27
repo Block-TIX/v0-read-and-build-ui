@@ -16,24 +16,15 @@ import {
   TrendingUp,
   Upload,
   User,
+  Smartphone,
+  Moon,
+  Footprints,
 } from "lucide-react"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  LineChart,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Area,
-} from "recharts"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 
 const healthScoreData = [
   { month: "Jan", score: 78 },
@@ -52,6 +43,45 @@ const biomarkersData = [
   { name: "Blood Pressure", value: 125, normal: 120, unit: "mmHg" },
   { name: "Resting HR", value: 68, normal: 75, unit: "bpm" },
   { name: "BMI", value: 24.5, normal: 25, unit: "" },
+]
+
+const healthAppData = [
+  {
+    id: 1,
+    title: "Daily Steps",
+    value: "12,847",
+    target: "10,000",
+    unit: "steps",
+    icon: Footprints,
+    progress: 128,
+    trend: "+15%",
+    color: "from-blue-500 to-cyan-500",
+    bgColor: "from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20",
+  },
+  {
+    id: 2,
+    title: "Sleep Quality",
+    value: "7h 32m",
+    target: "8h",
+    unit: "sleep",
+    icon: Moon,
+    progress: 94,
+    trend: "+8%",
+    color: "from-purple-500 to-indigo-500",
+    bgColor: "from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20",
+  },
+  {
+    id: 3,
+    title: "Heart Rate Zones",
+    value: "142",
+    target: "150",
+    unit: "avg bpm",
+    icon: Heart,
+    progress: 95,
+    trend: "+3%",
+    color: "from-red-500 to-pink-500",
+    bgColor: "from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20",
+  },
 ]
 
 const recentExams = [
@@ -153,23 +183,31 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-12">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-emerald-700 to-teal-700 bg-clip-text text-transparent">
-            Welcome back, Alex
+          <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 dark:text-white mb-3">
+            Welcome back, <span className="text-gradient-health">Alex</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Here's an overview of your health status</p>
+          <p className="text-xl text-slate-600 dark:text-slate-300 mb-4">Your health is looking exceptional today</p>
+          <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 status-excellent rounded-full"></div>
+              <span className="text-sm">All systems optimal</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              <span className="text-sm">Last updated: Today, 2:30 PM</span>
+            </div>
+          </div>
         </div>
-        <div className="flex gap-3">
-          <Button className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg">
-            <Upload className="w-4 h-4 mr-2" />
-            Upload Exam
+
+        <div className="flex gap-4">
+          <Button className="px-6 py-3 gradient-health rounded-2xl text-white font-semibold shadow-lg hover-lift flex items-center gap-2">
+            <Upload className="w-5 h-5" />
+            Upload Results
           </Button>
-          <Button
-            variant="outline"
-            className="border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-900/20"
-          >
-            <Calendar className="w-4 h-4 mr-2" />
+          <Button className="px-6 py-3 glass rounded-2xl text-slate-700 dark:text-slate-300 font-semibold hover:bg-white/20 transition-all flex items-center gap-2">
+            <Calendar className="w-5 h-5" />
             Schedule Checkup
           </Button>
         </div>
@@ -177,118 +215,126 @@ export default function Dashboard() {
 
       {/* Health Score Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 overflow-hidden border-0 shadow-xl bg-gradient-to-br from-white via-emerald-50 to-teal-50 dark:from-gray-900 dark:via-emerald-950 dark:to-teal-950 relative">
-          <CardHeader className="pb-2 relative z-10">
-            <CardTitle className="text-xl flex items-center gap-2">
-              <Heart className="w-5 h-5 text-emerald-600" />
-              Health Score
-            </CardTitle>
-            <CardDescription>Your health score over time</CardDescription>
-          </CardHeader>
-          <CardContent className="pb-0 relative">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center min-h-[350px] lg:min-h-[500px]">
-              {/* Health Score Details - Left Side */}
-              <div className="space-y-6">
-                {/* Main Health Score Display */}
-                <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-emerald-100 dark:border-emerald-800">
-                  <div className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
-                    89
+        <Card className="lg:col-span-2 glass-card rounded-3xl p-8 hover-lift border-0">
+          <CardHeader className="pb-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+                  <div className="w-8 h-8 gradient-health rounded-xl flex items-center justify-center">
+                    <Heart className="w-5 h-5 text-white" />
                   </div>
-                  <div className="text-lg font-medium text-gray-700 dark:text-gray-300 mb-1">Health Score</div>
-                  <div className="flex items-center gap-2">
-                    <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
-                      <TrendingUp className="w-3 h-3 mr-1" />
-                      +4% from last month
-                    </Badge>
-                  </div>
+                  Health Intelligence Score
+                </CardTitle>
+                <CardDescription className="text-gray-600 dark:text-gray-400 mt-2">
+                  AI-powered analysis of your overall health
+                </CardDescription>
+              </div>
+              <div className="text-right">
+                <div className="text-5xl font-bold text-gradient mb-2">89</div>
+                <div className="flex items-center gap-2 justify-end">
+                  <div className="w-3 h-3 status-excellent rounded-full"></div>
+                  <span className="text-sm font-semibold text-green-600">Excellent</span>
                 </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[400px]">
+              {/* Score Visualization */}
+              <div className="relative">
+                <div className="w-64 h-64 mx-auto relative">
+                  {/* Circular Progress SVG */}
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="rgba(255,255,255,0.1)" strokeWidth="8" fill="none" />
+                    <circle
+                      cx="50"
+                      cy="50"
+                      r="45"
+                      stroke="url(#healthGradient)"
+                      strokeWidth="8"
+                      fill="none"
+                      strokeDasharray="283"
+                      strokeDashoffset="56"
+                      strokeLinecap="round"
+                      style={{ transition: "stroke-dashoffset 2s ease-in-out" }}
+                    />
+                    <defs>
+                      <linearGradient id="healthGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#4facfe" />
+                        <stop offset="100%" stopColor="#00f2fe" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
 
-                {/* Health Score Chart */}
-                <div className="h-[200px] bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-xl p-4 border border-emerald-100 dark:border-emerald-800">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={healthScoreData} margin={{ top: 10, right: 10, left: 0, bottom: 10 }}>
-                      <defs>
-                        <linearGradient id="healthScoreGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
-                          <stop offset="95%" stopColor="#14b8a6" stopOpacity={0.1} />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#d1fae5" opacity={0.3} />
-                      <XAxis dataKey="month" stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
-                      <YAxis domain={[50, 100]} stroke="#6b7280" fontSize={10} tickLine={false} axisLine={false} />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "rgba(255, 255, 255, 0.95)",
-                          border: "none",
-                          borderRadius: "8px",
-                          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
-                          fontSize: "12px",
-                        }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="score"
-                        stroke="#10b981"
-                        strokeWidth={2}
-                        fill="url(#healthScoreGradient)"
-                        dot={{ r: 3, fill: "#10b981", strokeWidth: 1, stroke: "#fff" }}
-                        activeDot={{ r: 4, fill: "#10b981", strokeWidth: 2, stroke: "#fff" }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
+                  {/* Center Content */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-20 h-20 gradient-success rounded-full flex items-center justify-center mb-4 pulse-glow mx-auto">
+                        <Heart className="w-8 h-8 text-white" />
+                      </div>
+                      <div className="text-sm font-semibold text-gray-600 dark:text-gray-400">Health Status</div>
+                      <div className="text-lg font-bold text-gradient">Optimal</div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Health Visualization - Right Side */}
-              <div className="relative h-[400px] lg:h-[500px] flex items-center justify-center">
-                <div className="w-full h-full bg-gradient-to-br from-emerald-100 via-teal-100 to-cyan-100 dark:from-emerald-900/30 dark:via-teal-900/30 dark:to-cyan-900/30 rounded-2xl flex items-center justify-center shadow-inner">
-                  <div className="text-center p-8">
-                    <div className="relative mb-6">
-                      <div className="w-32 h-32 mx-auto bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shadow-lg">
-                        <Heart className="w-16 h-16 text-white animate-pulse" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg">
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      </div>
+              {/* Health Metrics */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 gradient-success rounded-xl flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-white" />
                     </div>
-                    <h3 className="text-xl font-semibold text-emerald-700 dark:text-emerald-300 mb-2">
-                      Excellent Health
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Your health metrics are looking great!</p>
+                    <div>
+                      <div className="font-semibold text-gray-800 dark:text-white">Improvement</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">vs last month</div>
+                    </div>
                   </div>
+                  <div className="text-2xl font-bold text-green-600">+12%</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 gradient-health rounded-xl flex items-center justify-center">
+                      <Activity className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-800 dark:text-white">Risk Level</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Current assessment</div>
+                    </div>
+                  </div>
+                  <div className="text-2xl font-bold text-green-600">Low</div>
+                </div>
+
+                <div className="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 gradient-warning rounded-xl flex items-center justify-center">
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-gray-800 dark:text-white">Compliance</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">Treatment adherence</div>
+                    </div>
+                  </div>
+                  <div className="text-2xl font-bold text-green-600">94%</div>
                 </div>
               </div>
             </div>
           </CardContent>
-          <CardFooter className="pt-4 relative z-10">
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-4">
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Last updated: {new Date().toLocaleDateString()}
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-              >
-                View Detailed Report
-                <ArrowRight className="w-4 h-4 ml-1" />
-              </Button>
-            </div>
-          </CardFooter>
         </Card>
 
-        <Card className="border-0 shadow-xl bg-gradient-to-br from-white via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-teal-950 dark:to-cyan-950">
+        <Card className="glass-card rounded-3xl p-6 hover-lift border-0">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
-              <Activity className="w-5 h-5 text-teal-600" />
-              Current Status
+              <div className="w-8 h-8 gradient-success rounded-xl flex items-center justify-center">
+                <Activity className="w-5 h-5 text-white" />
+              </div>
+              Vital Signs
             </CardTitle>
-            <CardDescription>Your key health indicators</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            {biomarkersData.map((marker, index) => {
+            {biomarkersData.slice(0, 4).map((marker, index) => {
               const percentage = (marker.value / marker.normal) * 100
               const isNormal = percentage <= 100
 
@@ -297,36 +343,21 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-3 h-3 rounded-full ${isNormal ? "bg-emerald-500" : "bg-amber-500"} shadow-sm`}
-                      />
-                      <span className="font-medium">{marker.name}</span>
-                      {isNormal ? (
-                        <Badge
-                          variant="outline"
-                          className="bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400 text-xs"
-                        >
-                          Normal
-                        </Badge>
-                      ) : (
-                        <Badge
-                          variant="outline"
-                          className="bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-400 text-xs"
-                        >
-                          Elevated
-                        </Badge>
-                      )}
+                        className={`w-8 h-8 rounded-lg flex items-center justify-center ${isNormal ? "status-excellent" : "status-attention"}`}
+                      >
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
+                      </div>
+                      <span className="font-medium text-gray-700 dark:text-gray-300">{marker.name}</span>
                     </div>
-                    <span className="font-bold text-lg">
+                    <span className="font-bold text-gray-800 dark:text-white">
                       {marker.value} <span className="text-sm font-normal text-gray-500">{marker.unit}</span>
                     </span>
                   </div>
-                  <div className="relative">
-                    <Progress
-                      value={percentage}
-                      className="h-3 bg-gray-100 dark:bg-gray-800"
-                      indicatorClassName={`${isNormal ? "bg-gradient-to-r from-emerald-500 to-teal-500" : "bg-gradient-to-r from-amber-500 to-orange-500"} transition-all duration-500 shadow-sm`}
+                  <div className="progress-premium">
+                    <div
+                      className={`progress-bar ${isNormal ? "status-excellent" : "status-attention"}`}
+                      style={{ width: `${Math.min(percentage, 100)}%` }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-full" />
                   </div>
                   <div className="text-xs text-gray-500 dark:text-gray-400">
                     Target: ≤ {marker.normal} {marker.unit}
@@ -338,9 +369,71 @@ export default function Dashboard() {
         </Card>
       </div>
 
+      {/* Health App Integration Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="md:col-span-3 flex items-center gap-3 mb-2">
+          <div className="w-8 h-8 glass rounded-xl flex items-center justify-center">
+            <Smartphone className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+          </div>
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">Health App Integration</h2>
+          <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+            <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+            Synced
+          </Badge>
+        </div>
+
+        {healthAppData.map((stat) => {
+          const Icon = stat.icon
+          return (
+            <Card key={stat.id} className="glass-card rounded-2xl p-6 hover-lift border-0">
+              <CardContent className="p-0">
+                <div className={`p-4 rounded-xl bg-gradient-to-r ${stat.bgColor} mb-4`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div
+                      className={`w-10 h-10 bg-gradient-to-r ${stat.color} rounded-xl flex items-center justify-center`}
+                    >
+                      <Icon className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="text-sm font-semibold text-green-600">{stat.trend}</span>
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="font-semibold text-gray-800 dark:text-white">{stat.title}</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-gray-800 dark:text-white">{stat.value}</span>
+                      <span className="text-sm text-gray-500 dark:text-gray-400">/ {stat.target}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <div className="progress-premium">
+                      <div
+                        className={`progress-bar bg-gradient-to-r ${stat.color}`}
+                        style={{ width: `${Math.min(stat.progress, 100)}%` }}
+                      />
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">{stat.progress}% of daily goal</div>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                  >
+                    View Details
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
+
       {/* Recent Exams & Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-1 border-0 shadow-lg bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-blue-950">
+        <Card className="lg:col-span-1 glass-card rounded-3xl border-0 hover-lift">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <FileText className="w-5 h-5 text-blue-600" />
@@ -353,7 +446,7 @@ export default function Dashboard() {
               {recentExams.map((exam) => (
                 <div
                   key={exam.id}
-                  className="p-3 rounded-lg border border-gray-100 dark:border-gray-800 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 dark:hover:from-blue-900/20 dark:hover:to-cyan-900/20 transition-all duration-200"
+                  className="p-3 rounded-lg glass hover:bg-white/20 dark:hover:bg-white/5 transition-all duration-200"
                 >
                   <div className="flex items-center justify-between mb-2">
                     <h3 className="font-medium">{exam.type}</h3>
@@ -384,7 +477,7 @@ export default function Dashboard() {
           </CardFooter>
         </Card>
 
-        <Card className="lg:col-span-2 border-0 shadow-lg bg-gradient-to-br from-white to-emerald-50 dark:from-gray-900 dark:to-emerald-950">
+        <Card className="lg:col-span-2 glass-card rounded-3xl border-0 hover-lift">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               <Heart className="w-5 h-5 text-emerald-600" />
@@ -397,7 +490,7 @@ export default function Dashboard() {
               {healthInsights.map((insight) => (
                 <motion.div
                   key={insight.id}
-                  className="p-4 rounded-lg border border-gray-100 dark:border-gray-800 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+                  className="p-4 rounded-lg glass hover:bg-white/20 dark:hover:bg-white/5"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
@@ -452,7 +545,7 @@ export default function Dashboard() {
       </div>
 
       {/* Health Metrics */}
-      <Card className="border-0 shadow-lg bg-gradient-to-br from-white to-teal-50 dark:from-gray-900 dark:to-teal-950">
+      <Card className="glass-card rounded-3xl border-0 hover-lift">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
             <Activity className="w-5 h-5 text-teal-600" />
@@ -462,7 +555,7 @@ export default function Dashboard() {
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="cholesterol" className="w-full">
-            <TabsList className="grid grid-cols-4 mb-6 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20">
+            <TabsList className="grid grid-cols-4 mb-6 glass">
               <TabsTrigger
                 value="cholesterol"
                 className="data-[state=active]:bg-emerald-500 data-[state=active]:text-white"
@@ -514,17 +607,17 @@ export default function Dashboard() {
               </div>
             </TabsContent>
             <TabsContent value="glucose">
-              <div className="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+              <div className="h-[300px] flex items-center justify-center glass rounded-lg">
                 <p className="text-gray-500">Blood Sugar metrics visualization</p>
               </div>
             </TabsContent>
             <TabsContent value="pressure">
-              <div className="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+              <div className="h-[300px] flex items-center justify-center glass rounded-lg">
                 <p className="text-gray-500">Blood Pressure metrics visualization</p>
               </div>
             </TabsContent>
             <TabsContent value="weight">
-              <div className="h-[300px] flex items-center justify-center bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-lg">
+              <div className="h-[300px] flex items-center justify-center glass rounded-lg">
                 <p className="text-gray-500">Weight metrics visualization</p>
               </div>
             </TabsContent>
@@ -534,25 +627,19 @@ export default function Dashboard() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Button className="h-auto py-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg">
+        <Button className="h-auto py-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-lg glass">
           <div className="flex flex-col items-center">
             <Upload className="h-6 w-6 mb-2" />
             <span>Upload New Exam</span>
           </div>
         </Button>
-        <Button
-          variant="outline"
-          className="h-auto py-6 border-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-900/20"
-        >
+        <Button className="h-auto py-6 glass border-2 border-emerald-200 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-800 dark:text-emerald-300 dark:hover:bg-emerald-900/20">
           <div className="flex flex-col items-center">
             <User className="h-6 w-6 mb-2" />
             <span>Update Health Profile</span>
           </div>
         </Button>
-        <Button
-          variant="outline"
-          className="h-auto py-6 border-2 border-teal-200 text-teal-700 hover:bg-teal-50 dark:border-teal-800 dark:text-teal-300 dark:hover:bg-teal-900/20"
-        >
+        <Button className="h-auto py-6 glass border-2 border-teal-200 text-teal-700 hover:bg-teal-50 dark:border-teal-800 dark:text-teal-300 dark:hover:bg-teal-900/20">
           <div className="flex flex-col items-center">
             <Calendar className="h-6 w-6 mb-2" />
             <span>Schedule Appointment</span>
