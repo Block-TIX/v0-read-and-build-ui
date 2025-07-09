@@ -175,8 +175,8 @@ export default function HealthInsights() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Health Insights</h1>
-        <p className="text-gray-600 dark:text-gray-400 mt-1">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Health Insights</h1>
+        <p className="text-gray-800 dark:text-gray-300 mt-1">
           AI-powered analysis and recommendations based on your health data
         </p>
       </div>
@@ -190,7 +190,7 @@ export default function HealthInsights() {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Positive Findings</div>
+                <div className="text-sm text-gray-800 dark:text-gray-300">Positive Findings</div>
                 <div className="text-2xl font-bold">3</div>
               </div>
             </div>
@@ -199,7 +199,7 @@ export default function HealthInsights() {
                 <FileText className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Recommendations</div>
+                <div className="text-sm text-gray-800 dark:text-gray-300">Recommendations</div>
                 <div className="text-2xl font-bold">2</div>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function HealthInsights() {
                 <AlertTriangle className="w-6 h-6 text-yellow-600" />
               </div>
               <div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Monitoring Needed</div>
+                <div className="text-sm text-gray-800 dark:text-gray-300">Monitoring Needed</div>
                 <div className="text-2xl font-bold">1</div>
               </div>
             </div>
@@ -254,8 +254,8 @@ export default function HealthInsights() {
                   <div className="flex-1">
                     <div className="flex items-start justify-between">
                       <div>
-                        <CardTitle className="text-xl">{insight.title}</CardTitle>
-                        <CardDescription className="mt-1">
+                        <CardTitle className="text-xl text-gray-900 dark:text-white">{insight.title}</CardTitle>
+                        <CardDescription className="mt-1 text-gray-700 dark:text-gray-300">
                           {new Date(insight.date).toLocaleDateString("en-US", {
                             year: "numeric",
                             month: "long",
@@ -275,11 +275,11 @@ export default function HealthInsights() {
                 </div>
               </CardHeader>
               <CardContent className="p-6 rounded-2xl glass border border-white/30">
-                <p className="text-gray-700 dark:text-gray-300">{insight.description}</p>
+                <p className="text-gray-800 dark:text-gray-200">{insight.description}</p>
 
                 <div className="mt-4">
                   <div className="flex items-center justify-between">
-                    <h4 className="font-medium text-sm">Related Metrics</h4>
+                    <h4 className="font-medium text-sm text-gray-900 dark:text-white">Related Metrics</h4>
                     <Button
                       variant="ghost"
                       size="sm"
@@ -312,12 +312,12 @@ export default function HealthInsights() {
                   className="overflow-hidden"
                 >
                   <div className="mt-4 pt-4 border-t">
-                    <h4 className="font-medium mb-3">Recommendations</h4>
+                    <h4 className="font-medium mb-3 text-gray-900 dark:text-white">Recommendations</h4>
                     <ul className="space-y-2">
                       {insight.recommendations.map((rec, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
-                          <span className="text-sm">{rec}</span>
+                          <span className="text-sm text-gray-800 dark:text-gray-200">{rec}</span>
                         </li>
                       ))}
                     </ul>
@@ -350,12 +350,12 @@ export default function HealthInsights() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Heart className="w-4 h-4 text-red-600" />
-                  <span className="font-medium">Cardiovascular Health</span>
+                  <span className="font-medium text-gray-900 dark:text-white">Cardiovascular Health</span>
                 </div>
-                <span className="text-sm font-medium">High Priority</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-300">High Priority</span>
               </div>
               <Progress value={85} className="h-2" indicatorClassName="bg-red-600" />
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-800 dark:text-gray-300">
                 Focus on blood pressure management and cholesterol reduction
               </p>
             </div>
@@ -364,12 +364,12 @@ export default function HealthInsights() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Utensils className="w-4 h-4 text-green-600" />
-                  <span className="font-medium">Nutrition</span>
+                  <span className="font-medium text-gray-900 dark:text-white">Nutrition</span>
                 </div>
-                <span className="text-sm font-medium">Medium Priority</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-300">Medium Priority</span>
               </div>
               <Progress value={60} className="h-2" indicatorClassName="bg-green-600" />
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-800 dark:text-gray-300">
                 Increase fiber intake and reduce sodium consumption
               </p>
             </div>
@@ -378,12 +378,12 @@ export default function HealthInsights() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Activity className="w-4 h-4 text-blue-600" />
-                  <span className="font-medium">Physical Activity</span>
+                  <span className="font-medium text-gray-900 dark:text-white">Physical Activity</span>
                 </div>
-                <span className="text-sm font-medium">Medium Priority</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-300">Medium Priority</span>
               </div>
               <Progress value={50} className="h-2" />
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-800 dark:text-gray-300">
                 Aim for 150 minutes of moderate activity weekly
               </p>
             </div>
@@ -392,12 +392,12 @@ export default function HealthInsights() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Brain className="w-4 h-4 text-purple-600" />
-                  <span className="font-medium">Mental Wellbeing</span>
+                  <span className="font-medium text-gray-900 dark:text-white">Mental Wellbeing</span>
                 </div>
-                <span className="text-sm font-medium">Low Priority</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-300">Low Priority</span>
               </div>
               <Progress value={30} className="h-2" indicatorClassName="bg-purple-600" />
-              <p className="text-sm text-gray-600 dark:text-gray-400">Consider stress management techniques</p>
+              <p className="text-sm text-gray-800 dark:text-gray-300">Consider stress management techniques</p>
             </div>
           </div>
         </CardContent>
